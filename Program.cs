@@ -18,6 +18,10 @@ namespace Samlingsklasser
             Console.WriteLine("5. Tärningskast med SortedList (Övning 1).");
             Console.WriteLine("6. Queue-exempel.");
             Console.WriteLine("7. Stack-exempel.");
+            Console.WriteLine("8. Övning 2.");
+            Console.WriteLine("9. Övning 3.");
+            Console.WriteLine("10. Övning 4.");
+            Console.WriteLine("11. Övning 5.");
 
             //Läs in menyval
             Console.Write("Ange siffra för vad du vill göra: ");
@@ -45,6 +49,18 @@ namespace Samlingsklasser
                     break;
                 case "7":
                     StackExempel();
+                    break;
+                case "8":
+                    Övning_2();
+                    break;
+                case "9":
+                    Övning_3();
+                    break;
+                case "10":
+                    Övning_4();
+                    break;
+                case "11":
+                    Övning_5();
                     break;
             }
 
@@ -74,7 +90,31 @@ namespace Samlingsklasser
         static void DiceSortedList()
         {
             //Övning 1
+            //Skapa en dictionary med int som nyckel och int som värde
+            SortedList<int, int> resultat = new SortedList<int, int>();
 
+            //skapa ett Random objekt för att slumpa
+            Random random = new Random();
+
+            //Gör tusen upprepnigar
+            for (int i = 0; i < 1000; i++)
+            {
+                //Slumpa tal mellan 1 och 6
+                int tal = random.Next(1, 7);
+
+                //Lägg nyckel om denna inte redan finns
+                if (!resultat.ContainsKey(tal))
+                    resultat.Add(tal, 0);
+
+                //Öka förekomsten av tal
+                resultat[tal]++;
+            }
+
+            //Visa resultatet
+            foreach (KeyValuePair<int, int> kvp in resultat)
+            {
+                Console.WriteLine("Nyckel: {0} Värde: {1}", kvp.Key, kvp.Value);
+            }
         }
 
         static void DiceDictionary()
@@ -213,6 +253,172 @@ namespace Samlingsklasser
                 Console.WriteLine("Värde: " + d);
             }
 
+        }
+        static void Övning_2()
+        {
+            //Ränsa skärmen
+            Console.Clear();
+            // Skapa en lista av double
+            List<double> Lista = new List<double>();
+            // Upprepa för alltid
+            while (true)
+            {
+                // Fråga om tal
+                Console.WriteLine("Lägg till ett tal: ");
+                // Konvertera värdet av input och sätt till var tal
+                double tal = Convert.ToDouble(Console.ReadLine());
+                // Om värdet = 0 avsluta
+                if (tal == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    // Ränsa skärmen för snyggare
+                    Console.Clear();
+                    // Lägg till det senaste till listan
+                    Lista.Add(tal);
+                    // Beräkna medelvärdet
+                    Console.WriteLine("Medelvärdet = " + Lista.Average());
+                }
+            }
+        }
+
+        static void Övning_3()
+        {
+            //Rensa skärmen
+            Console.Clear();
+            // Skapa random objekt att slumpa
+            Random random = new Random();
+            // Skapa List med string
+            List<string> Kortlek = new List<string>();
+            // Skapa array med de olika färgerna
+            var typ = new string[] { "H", "R", "K", "S" }; //hjärta, ruter, klöver och spader
+            // 0->4
+            for (int i = 0; i < 4; i++)
+            {
+                // Ess i kortleken
+                Kortlek.Add(typ[i] + "E");
+                // 2->10
+                for (int a = 2; a <= 10; a++)
+                {
+                    // Lägg till alla siffor
+                    Kortlek.Add(typ[i] + a.ToString());
+                }
+                // Lägg till färgade kort
+                Kortlek.Add(typ[i] + "Kn");
+                Kortlek.Add(typ[i] + "D");
+                Kortlek.Add(typ[i] + "K");
+            }
+            // sålänge det finns kort kvar
+            while (Kortlek.Count != 0)
+            {
+                // Slumpa siffra
+                int slump = random.Next(0, Kortlek.Count);
+                // Skriv kortet du drog
+                Console.WriteLine("Du drog: " + Kortlek[slump]);
+                // Ta bort de dragna kortet
+                Kortlek.RemoveAt(slump);
+            }
+        }
+        static void Övning_4()
+        {
+            //Rensa skärmen
+            Console.Clear();
+            // Skapa random objekt att slumpa
+            Random random = new Random();
+            // Skapa Dictionary med string som nyckel, int som värde
+            Dictionary<string, int> Kortlek = new Dictionary<string, int>();
+            // Skapa array med de olika färgerna
+            var typ = new string[] { "H", "R", "K", "S" }; //hjärta, ruter, klöver och spader
+            //1->4
+            for (int i = 0; i < 4; i++)
+            {
+                // Lägg till ess
+                Kortlek.Add(typ[i] + "E", 1);
+                // 2->10
+                for (int a = 2; a <= 10; a++)
+                {
+                    // Lägg till alla siffor
+                    Kortlek.Add(typ[i] + a.ToString(), a);
+                }
+                // Lägg till knekt, dam och kung
+                Kortlek.Add(typ[i] + "Kn", 11); // Sätt värde till 11 också
+                Kortlek.Add(typ[i] + "D", 12); // Sätt värde till 12 också
+                Kortlek.Add(typ[i] + "K", 13); // Sätt värde till 13 också
+            }
+            // Räkna antal par
+            int antalPar = 0;
+            // Räkna antal miss
+            int antalMiss = 0;
+            // Tusen ggr
+            for (int i = 0; i < 1000; i++)
+            {
+                // Slumpa två kort
+                int slump1 = random.Next(0, Kortlek.Keys.ToArray().Length);
+                int slump2 = random.Next(0, Kortlek.Keys.ToArray().Length);
+                if (Kortlek[Kortlek.Keys.ToArray()[slump1]] == Kortlek[Kortlek.Keys.ToArray()[slump2]])
+                {
+                    // Skriv när par
+                    Console.WriteLine("Par!");
+                    // Addera antal par
+                    antalPar++;
+                }
+                if (Kortlek[Kortlek.Keys.ToArray()[slump1]] != Kortlek[Kortlek.Keys.ToArray()[slump2]])
+                {
+                    // Addare antal inte par
+                    antalMiss++;
+                }
+            }
+            // Skriv ut antal par 
+            Console.WriteLine("Du fick " + antalPar + " antal par!");
+            // Skriv ut antal miss 
+            Console.WriteLine("Du fick " + antalMiss + " antal missar");
+        }
+        static void Övning_5()
+        {
+            // Rensa skärmen
+            Console.Clear();
+            // Fråga om text
+            Console.WriteLine("Mata in texten: ");
+            //  Texten
+            string text = Console.ReadLine();
+            // Skapa StringBuilder
+            StringBuilder sB = new StringBuilder();
+            // För alla karaktärer i texten
+            for (int i = 0; i < text.Length; i++)
+            {
+                // Ha bara kvar ord i texten
+                if (text[i] >= 'A' && text[i] <= 'z' || (text[i] == ' '))
+                {
+                    // Ta bort o tillåtna ord och lägg till de som får
+                    sB.Append(text[i]);
+                }
+            }
+            // Bygg upp texten efter vi har tagit ut de som vi inte vill ha
+            text = sB.ToString();
+
+            // Skapa en Lista
+            List<string> Lista = new List<string>();
+            // Lägg enskilda ord i lista sepererat med mellanslag
+            string[] splitString = text.Split(' ');
+            // För varje ord i fältet
+            foreach (string stringArray in splitString)
+            {
+                // Lägg orden i listan
+                Lista.Add(stringArray.ToLower());
+            }
+            //lägg till rad
+            Console.WriteLine("");
+
+            // Gruppera orden efter antal
+            var antal = Lista.GroupBy(i => i);
+            // För varje antal i förekomster
+            foreach (var tot in antal)
+            {
+                // Skriv ut orden efter antal förekomster
+                Console.WriteLine("{0} {1}", tot.Key, tot.Count());
+            }
         }
     }
 }
